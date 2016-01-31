@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+var _currentDrag = null;
+
 /**
  * Wraps the native drop events to make your components droppable.
  *
@@ -136,9 +138,9 @@ var Droppable = Ember.Mixin.create({
    */
 
   _droppableIsDraggable: function(event) {
-    return Droppable._currentDrag && (
-      Droppable._currentDrag === event.target ||
-      Droppable._currentDrag.contains(event.target)
+    return _currentDrag && (
+      _currentDrag === event.target ||
+      _currentDrag.contains(event.target)
     );
   },
 
@@ -159,11 +161,8 @@ var Droppable = Ember.Mixin.create({
 
 });
 
-// Need to track this so we can determine `self-drop`.
-// It's on `Droppable` so we can test :\
-Droppable._currentDrag = null;
 window.addEventListener('dragstart', function(event) {
-  Droppable._currentDrag = event.target;
+  _currentDrag = event.target;
 }, true);
 
 export default Droppable;
